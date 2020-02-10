@@ -13,6 +13,9 @@ const config: GameConfig = {
   parent: 'app',
   width: 600,
   height: 600,
+  physics: {
+  fps:60
+  },
   scene: [BootScene, PlayScene],
 }
 

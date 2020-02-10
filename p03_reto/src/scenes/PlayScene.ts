@@ -1,14 +1,15 @@
 import { Scene } from 'phaser'
 
 export default class PlayScene extends Scene {
-  cursor: Phaser.Input.Keyboard.CursorKeys;
-  kirby: Phaser.GameObjects.Image;
-  enemy: Phaser.GameObjects.Image;
-  enemy2: Phaser.GameObjects.Image;
-  enemy3: Phaser.GameObjects.Image;
-  gover: Phaser.GameObjects.Image;
+  cursor: Phaser.Input.Keyboard.CursorKeys
+  kirby: Phaser.GameObjects.Image
+  enemy: Phaser.GameObjects.Image
+  enemy2: Phaser.GameObjects.Image
+  enemy3: Phaser.GameObjects.Image
+  gover: Phaser.GameObjects.Image
+  kirbySpeed: number
   constructor() {
-    super({ key: 'PlayScene' });
+    super({ key: 'PlayScene' })
   }
 
   public create() {
@@ -29,9 +30,10 @@ export default class PlayScene extends Scene {
       .setScale(0.1)
       .setTint(0x721bff)
 
-    this.gover = this.add.image(300,300,'gover');
-    this.gover.alpha=0;
+    this.gover = this.add.image(300, 300, 'gover')
+    this.gover.alpha = 0
 
+    this.kirbySpeed = 12
     this.tweens.add({
       targets:this.enemy,
       y: 600,
@@ -59,42 +61,26 @@ export default class PlayScene extends Scene {
       loop: -1
     })
     this.cursor = this.input.keyboard.createCursorKeys();
-
-    // const logo = this.add.image(400, 150, 'logo')
-
-    // this.tweens.add({
-    //   targets: logo,
-    //   y: 450,
-    //   duration: 2000,
-    //   ease: 'Power2',
-    //   yoyo: true,
-    //   loop: -1,
-    // })
   }
 
   public update(time: any, delta: any) {
     if (this.gameover() && this.cursor.left.isDown) {
-      this.kirby.x -= 2;
+      this.kirby.x -= this.kirbySpeed;
     }
 
     if (this.gameover() && this.cursor.right.isDown) {
-      this.kirby.x += 2;
+      this.kirby.x += this.kirbySpeed;
     }
 
     if (this.gameover() && this.cursor.up.isDown) {
-      this.kirby.y -= 2;
+      this.kirby.y -= this.kirbySpeed;
     }
 
     if(this.gameover() && this.cursor.down.isDown){
-      this.kirby.y += 2;
+      this.kirby.y += this.kirbySpeed;
     }
-   
-    
-    // console.log(`time: ${time}`);
-    // console.log(typeof(time))
-    // console.log(`delta: ${delta}`)
-    // console.log(typeof(delta))
   }
+
   public gameover(){
 
     let distance1 = Math.sqrt(Math.pow(this.kirby.x - this.enemy.x,2) + 
