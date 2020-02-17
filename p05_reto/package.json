@@ -1,0 +1,17 @@
+{
+  "name": "p05_reto",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "phaser-scripts start",
+    "build": "phaser-scripts build",
+    "eject": "phaser-scripts eject"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "phaser": "^3.22.0"
+  },
+  "devDependencies": {
+    "@phaser-cli/scripts": "^2.0.0"
+  }
+}
