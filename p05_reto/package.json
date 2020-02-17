@@ -12,6 +12,7 @@
     "phaser": "^3.22.0"
   },
   "devDependencies": {
+    "lodash": "^4.17.15",
     "@phaser-cli/scripts": "^2.0.0"
   }
 }
