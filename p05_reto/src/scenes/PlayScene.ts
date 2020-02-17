@@ -21,6 +21,8 @@ export default class PlayScene extends Scene {
   scoreCross: any[]
   turno: boolean
   winRules: number[][]
+  gover: Phaser.GameObjects.Image
+  restart: Phaser.GameObjects.Image
 
   constructor() {
     super({ key: 'PlayScene' })
@@ -29,9 +31,11 @@ export default class PlayScene extends Scene {
   public create() {
     // Constante de eventos Phaser
     const eventos = Phaser.Input.Events
-
+    this.gover = this.add.image(400, 300, "gover").setScale(0.7)
+    this.gover.setAlpha(0)
+    this.restart = this.add.image(40, 560, "restart").setScale(0.3).setInteractive()
+    
     this.turno = false
-    console.log(_.intersectionWith([1, 2, 3, 4], [1, 2, 4]))
 
     this.winRules = [
       [1, 2, 3],
@@ -134,8 +138,20 @@ export default class PlayScene extends Scene {
     // Hacemos draggables las imagenes
     this.input.setDraggable(this.circles[0])
     this.input.setDraggable(this.cross[0])
-
+    
     // Programamos evenots
+    this.input.on(eventos.GAMEOBJECT_DOWN, (evento: any,gameobject:any) => {
+      if(gameobject.texture.key === 'restart'){
+        console.log('object')
+        this.circles = []
+        this.cross = []
+        this.scoreCircle = []
+        this.scoreCross = []
+        this.game.scene.stop('PlayScene')
+        this.game.scene.start('PlayScene')
+      }
+    })
+    
     this.input.on(
       eventos.DRAG,
       (pointer: any, obj: any, dragX: any, dragY: any) => {
@@ -143,6 +159,7 @@ export default class PlayScene extends Scene {
         obj.y = dragY
       }
     )
+
     this.input.on(eventos.DROP, (pointer: any, obj: any, dropzone: any) => {
       if (!dropzone) {
         obj.x = obj.input.dragStartX
@@ -198,8 +215,14 @@ export default class PlayScene extends Scene {
     let arrToInt = arreglo.map(i => parseInt(i))
     this.winRules.forEach(i => {
       if (_.intersection(arrToInt, i).length === 3) {
-        this.scene.stop()
-        console.log('End')
+        this.scene.pause()
+        this.gover.setAlpha(1)
+
+        setTimeout(()=>{
+        this.game.scene.stop('PlayScene')
+          this.game.scene.start('PlayScene')
+          this.gover.setAlpha(0)
+        }, 1000)
       }
     })
   }
