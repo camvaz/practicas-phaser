@@ -14,6 +14,7 @@ export default class PlayScene extends Scene {
   seleccion: Phaser.GameObjects.Text
   dude:personajes
   teclaX: Phaser.Input.Keyboard.Key
+  attackduration: number
   constructor() {
     super({ key: 'PlayScene' })
   }
@@ -129,7 +130,7 @@ export default class PlayScene extends Scene {
         this.graverobber.anims.stop()
       }
     })
-    
+    this.attackduration = 2000
     //Ataque
     this.teclaX.on('down', () => {
       if(this.dude === personajes.steam){
@@ -140,7 +141,7 @@ export default class PlayScene extends Scene {
           this.steamman.anims.stop()
         this.steamman.destroy(true)
           this.steamman = this.add.sprite(150,250,'steamman',0).setScale(4)
-        }, 3000)
+        }, this.attackduration)
       }
       if(this.dude === personajes.wood){
         this.woodcutter.destroy(true)
@@ -150,7 +151,7 @@ export default class PlayScene extends Scene {
           this.woodcutter.anims.stop()
           this.woodcutter.destroy(true)
           this.woodcutter = this.add.sprite(350,250,'woodcutter',0).setScale(4)
-        }, 3000)
+        }, this.attackduration)
       }
       if(this.dude === personajes.grave){
         this.graverobber.destroy(true)
@@ -160,7 +161,7 @@ export default class PlayScene extends Scene {
           this.graverobber.anims.stop()
           this.graverobber.destroy(true)
           this.graverobber = this.add.sprite(550,250,'graverobber',0).setScale(4)
-        }, 3000)
+        }, this.attackduration)
       }
     })
   }
