@@ -23,6 +23,7 @@ export default class PlayScene extends Scene {
   winRules: number[][]
   gover: Phaser.GameObjects.Image
   restart: Phaser.GameObjects.Image
+  tiradas: any[]
 
   constructor() {
     super({ key: 'PlayScene' })
@@ -33,7 +34,7 @@ export default class PlayScene extends Scene {
     const eventos = Phaser.Input.Events
     this.gover = this.add.image(400, 300, "gover").setScale(0.7)
     this.gover.setAlpha(0)
-    this.restart = this.add.image(40, 560, "restart").setScale(0.3).setInteractive()
+    this.restart = this.add.image(30, 570, "restart").setScale(0.2).setInteractive()
     
     this.turno = false
 
@@ -50,6 +51,7 @@ export default class PlayScene extends Scene {
     //Scores por simbolo:
     this.scoreCross = []
     this.scoreCircle = []
+    this.tiradas = []
 
     // DIBUJO DEL TABLERO:
     this.linea1 = this.add.line(260, 100, 260, 100, 260, 450, 0x000000)
@@ -168,9 +170,10 @@ export default class PlayScene extends Scene {
         obj.x = dropzone.x
         obj.y = dropzone.y
 
-        if (this.turno) {
-          if (obj.texture.key === 'cross') {
+        if (this.turno ) {
+          if (obj.texture.key === 'cross' && this.tiradas.find((element)=>{return element === dropzone.name}) === undefined) {
             this.scoreCross.push(dropzone.name)
+            this.tiradas.push(dropzone.name)
             this.cross.pop()
             this.cross.push(
               this.add
@@ -179,18 +182,17 @@ export default class PlayScene extends Scene {
                 .setScale(0.5, 0.5)
             )
             this.input.setDraggable(this.cross[0])
-
             this.turno = !this.turno
             this.winCondition(this.scoreCross)
           } else {
-            alert('Turno de cruz')
-
+            alert('Turno de cruz, no se vale encimar tiros!')
             obj.x = obj.input.dragStartX
             obj.y = obj.input.dragStartY
           }
         } else {
-          if (obj.texture.key === 'circle') {
+          if (obj.texture.key === 'circle' && this.tiradas.find((element)=>{return element === dropzone.name}) === undefined) {
             this.scoreCircle.push(dropzone.name)
+            this.tiradas.push(dropzone.name)
             this.circles.pop()
             this.circles.push(
               this.add
@@ -200,10 +202,10 @@ export default class PlayScene extends Scene {
             )
             this.input.setDraggable(this.circles[0])
             this.turno = !this.turno
+          
             this.winCondition(this.scoreCircle)
           } else {
-            alert('Turno de circulo')
-
+            alert('Turno de circulo, no se vale encimar tiros')
             obj.x = obj.input.dragStartX
             obj.y = obj.input.dragStartY
           }
@@ -215,14 +217,14 @@ export default class PlayScene extends Scene {
     let arrToInt = arreglo.map(i => parseInt(i))
     this.winRules.forEach(i => {
       if (_.intersection(arrToInt, i).length === 3) {
-        this.scene.pause()
+        // this.scene.pause()
         this.gover.setAlpha(1)
 
-        setTimeout(()=>{
-        this.game.scene.stop('PlayScene')
-          this.game.scene.start('PlayScene')
-          this.gover.setAlpha(0)
-        }, 1000)
+        // setTimeout(()=>{
+        // this.game.scene.stop('PlayScene')
+        //   this.game.scene.start('PlayScene')
+        //   this.gover.setAlpha(0)
+        // }, 1000)
       }
     })
   }
