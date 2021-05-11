@@ -8,11 +8,11 @@
     "eject": "phaser-scripts eject"
   },
   "dependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "phaser": "^3.22.0"
   },
   "devDependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "@phaser-cli/scripts": "^2.0.0"
   }
 }
